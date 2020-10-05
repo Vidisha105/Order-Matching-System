@@ -1,0 +1,35 @@
+
+  .example-container{
+    height: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-left: 800px;
+    text-align:center
+  }
+  .center{
+    width: 175%;
+    margin: 100px auto;
+  }
+
+  .custom{
+      height: 450px;
+      width: 350px;
+     /* opacity: 0.85;*/
+      margin-left: -1500px;
+  }
+  .background
+  {
+    min-height:97vh; 
+    background-size:cover; 
+    margin-top: 0px;
+    background-image: url(https://image.freepik.com/free-vector/trading-background-with-illustration-transparent-blue-candle-chart-rising-upwards-with-slanted-design-from-left-right_159711-161.jpg);
+    /*background-image: url(https://img.freepik.com/free-photo/stock-market-forex-trading-graph-graphic-concept-suitable-financial-investment-economic-trends-business-idea-all-art-work-design-abstract-finance-background_73426-181.jpg?size=626&ext=jpg);
+    background-image: url(https://img.freepik.com/free-photo/stock-market-forex-trading-graph_73426-194.jpg?size=626&ext=jpg);*/
+  }
+  .example-header-image {
+    background-image: url(//www.nicepng.com/png/detail/392-3922692_coin-of-the-realm-bull-and-bear-logo.png);
+    background-size: cover;
+    margin-left: 157px;
+  }

@@ -1,0 +1,9 @@
+<mat-toolbar   class="mat-elevation-z2 navbar-custom" *ngIf="authentication.isUserLoggedIn()">
+    <div mat-card-avatar class="example-header-image"></div><span style="margin-left: 10px; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"> <b>Trade-It</b></span>
+    <div class="spacer"></div>
+    <a mat-button  routerLink="orderbook" routerLinkActive="active">Home</a>
+    <a mat-button  routerLink="addorder" routerLinkActive="active">Place Order</a>
+    <a mat-button  routerLink="trades" routerLinkActive="active">Trades</a>
+    <a mat-button  routerLink="about" routerLinkActive="active">About</a>
+    <a mat-raised-button color="basic" routerLink="logout">Signout</a>
+</mat-toolbar>

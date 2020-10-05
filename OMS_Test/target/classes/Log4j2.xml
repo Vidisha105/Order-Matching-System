@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
+    <Properties>
+        <Property name="basePath">../OMS_Test/logs</Property>
+    </Properties>
+    <Appenders>
+    
+    
+		        <!-- File Appender -->
+        <File name="FILE" fileName="${basePath}/logfile.html" append="true">
+        	<!-- <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} (%F:%L) - %m%n" /> -->
+        	 <HTMLLayout charset="UTF-8" title="Banking App" locationInfo="true" /> 
+        	<JsonLayout complete="false" compact="false">
+            	<KeyValuePair key="StudytonightField" value="studytonightValue" />
+        	</JsonLayout>
+        	
+		</File>   
+       
+		    
+    </Appenders>
+    <Loggers>
+        <Logger name="com.citi" level="trace" />
+        <Root level="error">
+            <AppenderRef ref="rollingFile"></AppenderRef>
+        </Root>
+    </Loggers>
+</Configuration>

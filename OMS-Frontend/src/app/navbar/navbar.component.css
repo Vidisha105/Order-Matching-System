@@ -1,0 +1,17 @@
+.spacer{
+    flex: 1 1 auto;
+}
+.active{
+    background-color: whitesmoke;
+    color: black;
+    
+}
+.example-header-image {
+    background-image: url(//www.nicepng.com/png/detail/392-3922692_coin-of-the-realm-bull-and-bear-logo.png);
+    background-size: cover;
+}
+
+.navbar-custom{
+    background-color:rgb(0, 41, 95);
+    color: whitesmoke;
+}

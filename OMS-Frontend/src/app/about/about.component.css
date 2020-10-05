@@ -1,0 +1,7 @@
+.background-image{
+    min-height:45vh; 
+    background-size: cover;
+    margin-top: 0px;
+    /*background-image: url("../../assets/aboutImg.jpg");*/
+    background-image : url(https://media.istockphoto.com/photos/financial-and-technical-data-analysis-graph-showing-stock-market-picture-id943292690?k=6&m=943292690&s=612x612&w=0&h=AqwqtxoCVyAmgi1sYfGwsYKHpb_6pT19AVHmzmGg-a4=);
+}

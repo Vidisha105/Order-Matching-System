@@ -1,0 +1,98 @@
+<div class="background">
+    <br><br>
+      <div class="example-container" >
+        <mat-card class="custom">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+          </mat-card-header>
+          
+        <h3 style="align-self: center;">Trade-It</h3>
+            <mat-tab-group>
+                <mat-tab label="Login">
+                  <!-- LOGIN -->
+      
+                  <br><br>
+                  <mat-form-field>
+                    <!--<input matInput placeholder="Enter your email" [formControl]="emailLogin" required>-->
+                    <input matInput placeholder="Enter Username"  required [(ngModel)]="username">
+                    
+                    <!-- If email is not according to the valid format -->
+                    <mat-error *ngIf="emailLogin.invalid">{{getErrorMessage()}}</mat-error>             
+                  </mat-form-field>
+                
+                <br><br>
+                
+                    <mat-form-field>
+                    <!--<input matInput placeholder="Enter your Password" [formControl]="passwordLogin" required type="password">-->
+                    <input matInput placeholder="Enter Password" required type="password" [(ngModel)]="password">
+                    <mat-error *ngIf="passwordLogin.invalid">{{getErrorMessage()}}</mat-error>
+                  </mat-form-field><br><br>
+                  <!--<mat-checkbox>Remember Me</mat-checkbox>-->
+                
+                   
+                  
+                  
+                
+                <!--We can use below syntax for if else-->
+                
+                <div *ngIf="!checkUser(); then ifblock; else elseblock">
+                </div> 
+      
+                <!-- This can be substituted to ng-template-->
+                <!-- <button mat-raised-button color="primary" [disabled]="flag" (click)="checkUser()">Upload</button>
+                 -->
+                <ng-template #ifblock>
+      
+                <!-- INVALID USER -->
+                <button mat-raised-button color="primary" (click) = "checkUser()" disabled> LOGIN  </button>
+                <mat-error *ngIf="flag"><br>
+                   Enter valid email and password to login
+                  </mat-error>
+                </ng-template>
+                
+                
+                <ng-template #elseblock>
+                    <button mat-raised-button color="primary" (click) = "loginUser()"> LOGIN </button>
+                </ng-template>
+                </mat-tab>
+                  <!-- END OF LOGIN -->
+                  
+      
+                <mat-tab label="SignUp">
+                  <!-- SIGN UP -->
+                    
+                        <br><br>
+                      
+                        <mat-form-field>
+                         <!-- <input matInput placeholder="Enter your UserName" [formControl]="userNameSignUp" required>-->
+                          <input matInput placeholder="Enter Username" required [(ngModel)]="usernameSignup" #userref = "ngModel">
+                        </mat-form-field>
+                          <mat-form-field>
+                           <!-- <input matInput placeholder="Enter your Email" [formControl]="emailSignUp" required>-->
+                            <input matInput pattern = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9.-]+$" placeholder="Enter Email ID" required [(ngModel)]="emailId" #mailref = "ngModel">
+
+                          </mat-form-field>
+                        <mat-form-field>
+                          <!--<input matInput placeholder="Enter your Passsword" [formControl]="passwordSignUp" required>-->
+                          <input matInput type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Passsword" required [(ngModel)]="passwordSignup" #passref = "ngModel">
+                        </mat-form-field><br><br>
+                        <button mat-raised-button color="primary"  [disabled] = "(!(passref.valid && userref.valid && mailref.valid))" (click) = "createUser()" > SIGNUP </button>
+                        
+                        
+                        <!-- ^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$ , ^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$ -->
+                    
+                </mat-tab>
+                <!-- END OF SIGN UP -->
+                
+            </mat-tab-group>
+          
+              <br><br>
+      
+      
+        </mat-card>
+        
+      </div>
+        
+    </div>
+
+    

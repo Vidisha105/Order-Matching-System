@@ -1,0 +1,76 @@
+<div fxLayout fxLayoutAlign="left">
+  <div class="button-row">
+    <button mat-raised-button style="background-color: rgb(0, 41, 95); color: white" (click)="onClickMe()">Randomize</button>
+    <button mat-raised-button style="background-color: rgb(0, 41, 95); color: white" (click)="transact()">Match</button>
+    <button mat-raised-button style="background-color: rgb(182, 31, 12); color: white" (click)="onReset()">Reset</button>
+  </div>
+  <!--<mat-form-field fxFlex="40%">
+    <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter by Buy/Sell and Status">
+  </mat-form-field>-->
+</div>
+  
+<h3 style="margin-left: 150px;font-family: Arial, Helvetica, sans-serif;color:rgb(0, 41, 95); font-style: italic;"> Orders Before Matching</h3>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef >ID</th>
+      <td mat-cell *matCellDef="let row">{{row.id}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="buyOrSell">
+      <th mat-header-cell *matHeaderCellDef>BUY/SELL</th>
+      <td mat-cell *matCellDef="let row">{{row.buyOrSell}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="orderTime">
+      <th mat-header-cell *matHeaderCellDef>TIME</th>
+      <td mat-cell *matCellDef="let row">{{row.orderTime.split("T")}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef>QTY</th>
+      <td mat-cell *matCellDef="let row">{{row.quantity}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="orderType">
+      <th mat-header-cell *matHeaderCellDef>TYPE</th>
+      <td mat-cell *matCellDef="let row">{{row.orderType}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>PRICE</th>
+      <td mat-cell *matCellDef="let row">{{row.price}}</td>
+    </ng-container>
+    <ng-container matColumnDef="allorNone">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>All or None</th>
+      <td mat-cell *matCellDef="let row">{{row.allorNone}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="orderStatus">
+      <th mat-header-cell *matHeaderCellDef>STATUS</th>
+      <td mat-cell *matCellDef="let row" [ngClass] = "{'rejected': row.orderStatus == 'REJECTED', 'executed' : row.orderStatus == 'EXECUTED', 'pending' : row.orderStatus == 'PENDING'}">{{row.orderStatus}}
+        <fa-icon [hidden] = "row.orderStatus == 'PENDING' || row.orderStatus == 'EXECUTED'" [icon]="farejected"></fa-icon>
+        <fa-icon [hidden] = "row.orderStatus == 'PENDING' || row.orderStatus == 'REJECTED'" [icon]="faaccepted"></fa-icon>
+        <fa-icon [hidden] = "row.orderStatus == 'REJECTED' || row.orderStatus == 'EXECUTED'" [icon]="fapending"></fa-icon>
+      </td>
+    </ng-container>
+    <!-- new changes-->
+    
+    <!--new changes-->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
+  <div *ngIf="dataSource?.data.length === 0" style="margin-left: 600px;color: rgb(107, 105, 105);font-style: italic;">No Records found .. </div>
+  <mat-paginator #paginator
+    [length]="dataSource?.data.length"
+    [pageIndex]="0"
+    [pageSize]="5"
+    [pageSizeOptions]="[5,10]">
+  </mat-paginator>
+
+  <ngx-spinner 
+             bdColor = "rgba(51, 51, 51, 0.8)"
+             size = "default"
+             color = "white"
+             type = "square-loader"
+>

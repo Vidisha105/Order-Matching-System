@@ -1,0 +1,278 @@
+
+<!-- INSTRUCTIONS -->
+
+<div style="width : 550px; float:right; margin-top: 10pt; margin-right: 30pt; font-size:11pt;">
+  <mat-card class="mat-elevation" style="background-color: whitesmoke; border-radius: 0%; box-shadow: none;">
+    <h2>Everything you need to know before stepping into the market</h2>
+    <p>
+      <b>LTP : </b>
+      LTP means the <strong>last traded price</strong> of Amazon equity share at which the market closed on the last working day.
+    </p>
+    <p><b>PRICE : </b>
+      Your bid price should be within the price band which stands at 10% higher or lower than the LTP.
+      Minimum and Maximum allowed prices have been provided for your reference.
+      Also, you can only trade at prices which are multiples of <strong>0.05$</strong>.   
+    </p>
+    <p><b>TIME : </b>
+      We are considering the trade orders placed between <strong>11:00 A.M.</strong> and <strong>12:00 A.M.</strong> for any given day.
+      So kindly make sure that you place your orders within that window, otherwise your orders will be rejected.
+    </p>
+    <p><b>MARKET : </b>
+      If you choose to place a <strong>market</strong> order, we will try to execute your order with the best available order present in the market. You don't have to 
+      enter a bid price for placing a market order. 
+      <br>
+      However, by the time the market closes on that day, if we are unable to find a suitable trade for you, your order will be <strong>rejected</strong>.
+    </p>
+    <p><b>LIMIT : </b>
+      A <strong>limit</strong> order is like any normal order. You have to 
+      enter a bid price in compliance with the price rules mentioned above. 
+    </p>
+    <b>EXTRA CONDITIONS : </b>
+    <ul>
+      <li>
+        <strong>All or None: </strong>We will either execute the whole order or wait for a suitable trade.
+      </li>
+      <!--<li>
+        <strong>Minimum Filled: </strong>We will keep executing orders with shares that exceeds your minimum filled limit.<u>Note:</u>Your minimum number of shares
+        to be filled cannot exceed your total quantity. 
+      </li>-->
+      <li>
+        <strong>No Extra Conditions: </strong>You can always opt for no extra conditions wherein your shares will be traded as and when a suitable trade offer is found.
+      </li>
+    </ul>
+  </mat-card>
+</div>
+
+<!-- INSTRUCTIONS -->
+
+
+<!-- BUY FORM -->
+
+<div *ngIf = "!slidervalue" style="width : 600px; margin-left: 60pt; margin-top: 15pt">
+    <mat-card class="my-card" style="margin-top: 10pt">
+
+      <!-- FORM HEADER-->
+      <div class = "cardhead">
+        <div id="HASH">
+          <span><h4 style="color: white;  font-family: Verdana, Geneva, Tahoma, sans-serif;">BUY ORDER</h4></span>
+          <span>
+            <h4 style="color:white; font-family: Verdana, Geneva, Tahoma, sans-serif;"><fa-icon [icon]="ltpinfo" data-toggle="tooltip" title="Last Traded Price. Your bid should be in the LTP price band."></fa-icon>
+            LTP : {{ltp}}</h4></span>
+        </div>
+      </div>
+      <!-- FORM HEADER-->
+
+      <!-- FORM CONTENT-->
+          <mat-card-content class="cardcontent">
+            <form (ngSubmit) = "validate(buyorderform)" #buyorderform = "ngForm" class="my-form">
+              <table style="width: 100%"  cellspacing="30">
+                <tr>
+                    <td> 
+                      <mat-form-field>
+                        <input pattern="^\d*(\.\d{0,2})?$" [disabled] = "pbuy" matInput  placeholder="Price" [(ngModel)]="order.price"  name="price"  required #priceref = "ngModel">      
+                      </mat-form-field>  
+                      <fa-icon [icon]="priceinfo" data-toggle="tooltip" title="Should be a multiple of 0.05 and within the 10% LTP price band."></fa-icon>
+                      <span style="padding-left: 10px; padding-right: 10px; color: gray"><br>Min : {{minlimit}}</span>
+                      <span style="color: gray">Max : {{maxlimit}}</span>
+                      <div [hidden]="(priceref.pristine || priceref.valid || pbuy)" class="alert alert-danger">
+                        Please enter a Valid Price for your order!
+                      </div>
+                    </td>
+                    <td> 
+                      <mat-radio-group  class = "tp-radio-group" [(value)] = "buycategory">
+                        <mat-radio-button  style = "margin:5px" value="true" (click) = "enablebuyprice()" [checked] = "buycategory">LIMIT</mat-radio-button>
+                        <mat-radio-button  style = "margin:5px" value="false" (click) = "disablebuyprice()" [checked] = "!buycategory">MARKET</mat-radio-button>
+                      </mat-radio-group>
+                    </td>   
+                </tr>
+
+                <tr>
+                  <td> 
+                    <mat-form-field>
+                      <mat-label>Quantity</mat-label>
+                      <input  matInput  pattern="[0-9]+" placeholder="Quantity" [(ngModel)]="order.quantity"  name="quantity"  required #quantityref = "ngModel">
+                    </mat-form-field>
+                    <fa-icon [icon]="quantityinfo" data-toggle="tooltip" title="Should be a numeric value."></fa-icon>       
+                    <div [hidden]="quantityref.pristine || quantityref.valid" class="alert alert-danger">
+                      Please enter some Valid Quantity for your order!
+                    </div>   
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <input matInput type="time" placeholder="Time of order" id="time" step = "1" value="curr" [(ngModel)] = "curr" #timeref = "ngModel">
+                      <!--<input type="time" id="time2" step = "1"/>-->
+                    </mat-form-field> 
+                  </td>
+
+                </tr>
+
+                <tr>
+                  <td>
+                   <mat-form-field>
+                      <mat-label>Any Extra Conditions</mat-label>
+                          <mat-select [disabled] = "pbuy" [(value)]="buyoption" placeholder="Any Extra Conditions">
+                          <mat-option value="None">None</mat-option>
+                          <mat-option value="All or None">All or None</mat-option>
+                          <!--<mat-option value="Minimum Filled">Minimum Filled</mat-option>-->
+                      </mat-select>
+                  </mat-form-field>
+                  </td>
+
+                  <!--<td>
+                    <mat-form-field>
+                      <input matInput type="time" placeholder="Time of order" id="time" step = "1" value="curr" [(ngModel)] = "curr" #timeref = "ngModel">
+                      <input type="time" id="time2" step = "1"/>
+                    </mat-form-field> 
+                  </td>
+                </tr>-->
+            
+                <tr>
+                  <td>
+                    <div [hidden] = "checkminbuy()">
+                      <mat-form-field>
+                        <mat-label>Minimum shares to be filled</mat-label>
+                        <input  matInput  pattern="[0-9]+" placeholder="Min Fill" [(ngModel)]="order.minFill"  name="minfill" #minfillref = "ngModel" >
+                      </mat-form-field>
+                    </div>
+                    <div [hidden]="minfillref.pristine || minfillref.valid" class="alert alert-danger">
+                      Please enter some Valid Min shares for your order!
+                    </div>   
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <button  mat-raised-button color="primary" [disabled] = "!(buyorderform.form.valid && timeref.valid)">Confirm Order</button>
+                  </td>
+
+                  <td>
+                    <mat-label>BUY  </mat-label>
+                    <mat-slide-toggle [(ngModel)] = "slidervalue" name = "OrderType" (click) = "buytoggle()"></mat-slide-toggle> 
+                    <mat-label>  SELL</mat-label>
+                  </td>
+                </tr>
+
+                </table>
+            </form>
+          </mat-card-content>
+        <!-- FORM HEADER-->
+
+    </mat-card>
+    </div>
+    
+<!-- BUY FORM -->
+
+
+<!-- SELL FORM -->
+
+  <div *ngIf = "slidervalue" style="width : 600px; margin-left: 60pt; margin-top: 15pt;">
+    <mat-card  class="my-card" style="margin-top: 10pt;">
+      
+      <div class = "cardheadsell">
+        <div id="HASH">
+          <span><h4 style="color: white;  font-family: Verdana, Geneva, Tahoma, sans-serif;">SELL ORDER</h4></span>
+          <span>
+            <h4 style="color: white;  font-family: Verdana, Geneva, Tahoma, sans-serif;"><fa-icon [icon]="ltpinfo" data-toggle="tooltip" title="Last Traded Price. Your bid should be in the LTP price band."></fa-icon>
+            LTP : {{ltp}}</h4></span>
+        </div>
+      </div>
+          <mat-card-content class="cardcontentsell">
+            <form  (ngSubmit) = "validate(sellorderform)" #sellorderform = "ngForm" class="my-form">
+              <table  style="width: 100%"  cellspacing="30">
+                <tr>
+                    <td> 
+                      <mat-form-field>
+                        <input pattern="^\d*(\.\d{0,2})?$" [disabled] = "psell" matInput  placeholder="Price" [(ngModel)]="order.price"  name="price"  required #priceref = "ngModel"> 
+                      </mat-form-field>
+                      <fa-icon [icon]="priceinfo" data-toggle="tooltip" title="Should be a multiple of 0.05 and within the 10% LTP price band."></fa-icon>
+                      <span style="padding-left: 10px; padding-right: 10px; color: gray"><br>Min : {{minlimit}}</span>
+                      <span style="color: gray">Max : {{maxlimit}}</span>
+                      <div [hidden]="(priceref.pristine || priceref.valid || psell)" class="alert alert-danger">
+                        Please enter a Valid Price for your order!
+                      </div>
+                    </td>
+    
+                    <td> 
+                      <mat-radio-group  class = "tp-radio-group" [(value)]="sellcategory">
+                        <mat-radio-button  style = "margin:5px" value="true" (click) = "enablesellprice()" [checked] = "sellcategory">LIMIT</mat-radio-button>
+                        <mat-radio-button  style = "margin:5px" value="false" (click) = "disablesellprice()" [checked] = "!sellcategory">MARKET</mat-radio-button>
+                      </mat-radio-group>
+                    </td> 
+                   
+                </tr>
+                <tr>
+                  <td> 
+                    <mat-form-field>
+                      <mat-label>Quantity</mat-label>
+                      <input  matInput  pattern="[0-9]+" placeholder="Quantity" [(ngModel)]="order.quantity"  name="quantity"  required #quantityref = "ngModel">
+                    </mat-form-field>
+                    <fa-icon [icon]="quantityinfo" data-toggle="tooltip" title="Should be a numeric value."></fa-icon>
+                    <div [hidden]="quantityref.pristine || quantityref.valid" class="alert alert-danger">
+                      Please enter some Valid Quantity for your order!
+                    </div>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <input matInput type="time" placeholder="Time of order" id="time" step = "1" value="curr">
+                      <!--<input type="time" id="time2" step = "1"/>-->
+                    </mat-form-field> 
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <mat-form-field>
+                      <mat-label>Any Extra Conditions</mat-label>
+                          <mat-select [disabled] = "psell" [(value)]="selloption" placeholder="Any Extra Conditions">
+                          <mat-option value="None">None</mat-option>
+                          <mat-option value="All or None">All or None</mat-option>
+                          <!--<mat-option value="Minimum Filled">Minimum Filled</mat-option>-->
+                      </mat-select>
+                  </mat-form-field>
+                 </td>
+
+                  <!--<td>
+                    <mat-form-field>
+                      <input matInput type="time" placeholder="Time of order" id="time" step = "1" value="curr">
+                      <input type="time" id="time2" step = "1"/>
+                    </mat-form-field> 
+                  </td>
+
+                  
+                  
+                </tr>-->
+                <tr>
+                  <td>
+                    <div [hidden] = "checkminsell()">
+                      <mat-form-field>
+                        <mat-label>Minimum shares to be filled</mat-label>
+                        <input matInput  pattern="[0-9]+" placeholder="Min Fill" [(ngModel)]="order.minFill"  name="minfill" #minfillref = "ngModel" >
+                      </mat-form-field>
+                    </div>
+                    <div [hidden]="minfillref.pristine || minfillref.valid" class="alert alert-danger">
+                      Please enter some Valid Min shares for your order!
+                    </div>   
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <button  [disabled] = "!sellorderform.form.valid" mat-raised-button color="primary">Confirm Order</button>
+                  </td>
+
+                  <td>
+                    <mat-label>BUY  </mat-label>
+                    <mat-slide-toggle [(ngModel)] = "slidervalue" name = "OrderType" (click) = "selltoggle()"></mat-slide-toggle> 
+                    <mat-label>  SELL</mat-label>
+                  </td>
+                </tr>
+                </table>
+            </form>
+          </mat-card-content>
+          <mat-card-actions>
+            
+          </mat-card-actions>
+    </mat-card>
+    </div>
+
+<!-- SELL FORM -->
+    
+ 
